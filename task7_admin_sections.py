@@ -40,9 +40,29 @@ def click_menu():
             sub_menu_element_count = 0   #Обнуляется счетчик элементов подменю для следующего пункта меню
 
 
+def check_sticker():
+    driver.get("http://localhost/litecart/en/")
+    driver.maximize_window()
+    ducks = driver.find_elements_by_css_selector("li[class='product column shadow hover-light']")
+    stiker_list = driver.find_elements_by_css_selector('.sticker')
+
+    #Если кол-во стикеров совпадает с кол-вом товаров, то у каждого товара
+    #по одному стикеру
+    if len(ducks) == len(stiker_list):
+        print('Кол-во карточек продуктов на странице: ', len(ducks))
+        print('Кол-во стикеров на странице: ', len(stiker_list))
+        print('Вывод: каждый продукт имеет по одному стикеру.')
+    else:
+        print('Кол-во карточек продуктов на странице: ', len(ducks))
+        print('Кол-во стикеров на странице: ', len(stiker_list))
+        print("Условия ТЗ нарушены. Кол-во стикеров у каждой карточки продукта отлично от единицы.")
+
+
+
 def  main():
     authorization()
     click_menu()
+    check_sticker()
     close_wd(driver)
 
 

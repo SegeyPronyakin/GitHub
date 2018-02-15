@@ -41,6 +41,8 @@ def click_menu():
 
 
 def check_sticker():
+    """Функция проверки наличия одного стикера у карточек товаров"""
+    
     driver.get("http://localhost/litecart/en/")
     driver.maximize_window()
     ducks = driver.find_elements_by_css_selector("li[class='product column shadow hover-light']")

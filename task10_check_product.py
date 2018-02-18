@@ -1,22 +1,11 @@
-"""
-а) на главной странице и на странице товара совпадает текст названия товара
-б) на главной странице и на странице товара совпадают цены (обычная и акционная)
-в) обычная цена зачёркнутая и серая (можно считать, что "серый" цвет это такой, у которого в RGBa представлении одинаковые значения для каналов R, G и B)
-г) акционная жирная и красная (можно считать, что "красный" цвет это такой, у которого в RGBa представлении каналы G и B имеют нулевые значения)
-(цвета надо проверить на каждой странице независимо, при этом цвета на разных страницах могут не совпадать)
-д) акционная цена крупнее, чем обычная (это тоже надо проверить на каждой странице независимо)
-Необходимо убедиться, что тесты работают в разных браузерах, желательно проверить во всех трёх ключевых браузерах (Chrome, Firefox, IE).
-"""
-
-
 from selenium import webdriver
 
-driver = webdriver.Chrome()
-# driver_CHROME = webdriver.Chrome()
-# driver_FIREFOX = webdriver.Firefox()
-# driver_IE = webdriver.Ie()
 
-def check_product_property():
+driver_CHROME = webdriver.Chrome()
+driver_FIREFOX = webdriver.Firefox()
+
+
+def check_product_property(driver):
     driver.get('http://localhost/litecart/en/')
     name_of_homepage_product = driver.find_element_by_css_selector('#box-campaigns div[class="name"]').get_attribute('textContent') #Имя на главной странице:
     cost_of_homepage = driver.find_element_by_css_selector("#box-campaigns [class='regular-price']").get_attribute('textContent').replace('$','')
@@ -26,15 +15,10 @@ def check_product_property():
     #Проверка на размер цены на главной странице
     size_old_cost_homepage = driver.find_element_by_css_selector("#box-campaigns [class='regular-price']").size
     size_new_cost_homepage = driver.find_element_by_css_selector("#box-campaigns [class='campaign-price']").size
-    # print(size_new_cost_homepage)
-    # print(size_old_cost_homepage)
-    # print(size_new_cost_homepage.values())
-    # print(size_old_cost_homepage.values())
     if int(size_old_cost_homepage['width']) < int(size_new_cost_homepage['width']):
-        print("OK: новая цена больше страной на главной странице")
+        print("OK: новая цена больше старой на главной странице")
 
-
-    #Проверка цены
+    #Проверка цен на совпадение
     driver.find_element_by_css_selector('#box-campaigns div[class="name"]').click()
     cost_of_cart = driver.find_element_by_css_selector('div[class="information"] [class="regular-price"]').get_attribute('textContent').replace('$','')
     if int(cost_of_cart) == int(cost_of_homepage):
@@ -89,10 +73,14 @@ def check_product_property():
     if int(size_old_cost_cart['width']) < int(size_new_cost_cart['width']):
         print("OK: новая цена больше старой на странице карточки товара")
 
+    print("Проверка окончена")
+    print('*********************')
+    driver.close()
 
 
 def main():
-    check_product_property()
+    check_product_property(driver_CHROME)
+    check_product_property(driver_FIREFOX)
 
 
 if __name__ == '__main__':

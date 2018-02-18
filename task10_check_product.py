@@ -15,12 +15,14 @@ driver = webdriver.Chrome()
 # driver_CHROME = webdriver.Chrome()
 # driver_FIREFOX = webdriver.Firefox()
 # driver_IE = webdriver.Ie()
-def a():
+
+def check_product_property():
     driver.get('http://localhost/litecart/en/')
     name_of_homepage_product = driver.find_element_by_css_selector('#box-campaigns div[class="name"]').get_attribute('textContent') #Имя на главной странице:
     cost_of_homepage = driver.find_element_by_css_selector("#box-campaigns [class='regular-price']").get_attribute('textContent').replace('$','')
     cost_color_homepage = driver.find_element_by_css_selector("[class='regular-price']").value_of_css_property('color').replace('rgba(', '').replace(')', '')
     text_decoration_cost_homepage = driver.find_element_by_css_selector('#box-campaigns [class="regular-price"]').value_of_css_property('text-decoration')
+
     #Проверка цены
     driver.find_element_by_css_selector('#box-campaigns div[class="name"]').click()
     cost_of_cart = driver.find_element_by_css_selector('div[class="information"] [class="regular-price"]').get_attribute('textContent').replace('$','')
@@ -64,46 +66,17 @@ def a():
     else:
         print('FAIL: старя цена на главной странице не перечернутая')
 
-    driver.find_element_by_css_selector('div[class="information"] [class="regular-price"]').value_of_css_property('text-decoration')
-
-
-
-
-    #     print('OK: цвет совпадает')
-    #     print(cost_color_homepage.split(',')[:-1],cost_color_cart)
-    # else:
-    #     print('FAIL: цвет не совпадает')
-    #     print(cost_color_homepage.split(',')[:-1], cost_color_cart)
-    # print(cost_color_cart)
-
-
-
-    print('*********************')
-    cost_of_homepage = driver.find_elements_by_css_selector("#box-most-popular [class='campaign-price']")
-    for i in cost_of_homepage:
-        print(i.get_attribute('textContent'))
-
-
-
-
-    # name_of_cart_product =
-    #
-
-    # cost_of_cart =
-    #
-    # sale_cost_of_homepage =
-    # sale_cost_of_cart =
-
+    text_decoration_cost_cart = driver.find_element_by_css_selector('div[class="information"] [class="regular-price"]').value_of_css_property('text-decoration')
+    if 'line-through' in text_decoration_cost_cart:
+        print("ОК: старая цена на странице товара перечеркнутая")
+    else:
+        print('FAIL: старя цена на странице товара не перечернутая')
 
 
 def main():
-    a()
+    check_product_property()
 
 
 if __name__ == '__main__':
     main()
 
-# if cost_of_homepage != '':
-#     print(driver.find_elements_by_css_selector("[class='price-wrapper']")[x].get_attribute('textContent').replace('$',
-#                                                                                                                   ''))
-#     x += 1

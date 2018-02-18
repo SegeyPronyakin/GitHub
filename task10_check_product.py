@@ -23,6 +23,17 @@ def check_product_property():
     cost_color_homepage = driver.find_element_by_css_selector("[class='regular-price']").value_of_css_property('color').replace('rgba(', '').replace(')', '')
     text_decoration_cost_homepage = driver.find_element_by_css_selector('#box-campaigns [class="regular-price"]').value_of_css_property('text-decoration')
 
+    #Проверка на размер цены на главной странице
+    size_old_cost_homepage = driver.find_element_by_css_selector("#box-campaigns [class='regular-price']").size
+    size_new_cost_homepage = driver.find_element_by_css_selector("#box-campaigns [class='campaign-price']").size
+    # print(size_new_cost_homepage)
+    # print(size_old_cost_homepage)
+    # print(size_new_cost_homepage.values())
+    # print(size_old_cost_homepage.values())
+    if int(size_old_cost_homepage['width']) < int(size_new_cost_homepage['width']):
+        print("OK: новая цена больше страной на главной странице")
+
+
     #Проверка цены
     driver.find_element_by_css_selector('#box-campaigns div[class="name"]').click()
     cost_of_cart = driver.find_element_by_css_selector('div[class="information"] [class="regular-price"]').get_attribute('textContent').replace('$','')
@@ -71,6 +82,13 @@ def check_product_property():
         print("ОК: старая цена на странице товара перечеркнутая")
     else:
         print('FAIL: старя цена на странице товара не перечернутая')
+
+    #Проверка размера цены в карточке товара
+    size_old_cost_cart = driver.find_element_by_css_selector('div[class="information"] [class="regular-price"]').size
+    size_new_cost_cart = driver.find_element_by_css_selector("div[class='information'] [class='campaign-price']").size
+    if int(size_old_cost_cart['width']) < int(size_new_cost_cart['width']):
+        print("OK: новая цена больше старой на странице карточки товара")
+
 
 
 def main():

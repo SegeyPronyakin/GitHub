@@ -33,10 +33,9 @@ def country_sorting():
             country_list.append(country.get_attribute('text'))
     #Сортируется полученный список и сравнивается с исходным.
     if country_list == sorted(country_list):
-        print('ОК: Список отсортирован')
+        print('ОК: Список стран отсортирован')
     else:
-        print('FAIL: Список неотсортрован')
-
+        print('FAIL: Список стран неотсортрован')
 
 
 def check_country_zone():
@@ -51,24 +50,48 @@ def check_country_zone():
             quantity_zones = driver.find_elements_by_xpath('//tr[@class="row"]/td[6]')[y].get_attribute('textContent') #Элемент кол-ва зон в стране
             if int(quantity_zones) > 0:
                 driver.find_elements_by_xpath('//tr[@class="row"]/td[7]')[y].click()
-
                 #Проверка сортировки зон страны
                 names_list = driver.find_elements_by_xpath('//table[@id="table-zones"]//td[3]')
                 for name in names_list:
                     if name.get_attribute('textContent') != '':
                         zones_list.append(name.get_attribute('textContent'))
                 if zones_list == sorted(zones_list):
-                    print('OK: Список зон страны отсортирован')
+                    print('OK: Список зон на странице страны отсортирован')
                 else:
-                    print("FAIL: Список зон страны не отсортрован")
+                    print("FAIL: Список зон на странице страны не отсортрован")
                 zones_list = [] #Обнуляем список для следующих циклов
                 driver.find_element_by_name('cancel').click()  #Возвращаемся на страницу стран
+
+
+def geo_zone():
+    """ФУНКЦИЯ ПРОВЕРКИ ОТСОРТИРОВАННОСТИ СПИСКОВ ЗОН ВЫПАДАЮЩИХ
+    СПИСКОВ НА СТРАНИЦЕ /?app=geo_zones&doc=geo_zones"""
+
+    driver.get('http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones')
+    country = driver.find_elements_by_xpath('//tr[@class="row"]//td[3]') #список стран
+    x=0
+    zone_list = []
+    #Переходим в каждую странцу и ищем среди выпадающих списков элемент
+    #с тегом <options> и атрибутом selected
+    for i in country:
+        driver.find_elements_by_xpath('//tr[@class="row"]//td[5]')[x].click()
+        zone_list_el = driver.find_elements_by_xpath('//table[@id="table-zones"]//tr//td[3]//option[@selected="selected"]') #[2] // td[3]
+        for a in zone_list_el:
+            zone_list.append(a.get_attribute('textContent'))
+        if zone_list == sorted(zone_list): #сравниваем отсортированный и неотсортированный список
+            print("OK: список зон на странице зон отсортирован")
+        else:
+            print("Fail: список зон на странице зон неотсортирован")
+        zone_list = [] #обнуляю список для следующих стран
+        x+=1
+        driver.find_element_by_name('cancel').click()
 
 
 def main():
     login_admin_panel()
     country_sorting()
     check_country_zone()
+    geo_zone()
     wd_close(driver)
 
 

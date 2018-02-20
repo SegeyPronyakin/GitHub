@@ -37,6 +37,7 @@ def registration():
 
 def main():
    registration()
+   driver.close()
 
 
 if __name__ == '__main__':

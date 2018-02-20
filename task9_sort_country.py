@@ -47,7 +47,8 @@ def check_country_zone():
         for zone in country_zone_list:
             y+=1
             #Если кол-во  зон больше 0, то переходим в эту страну и делаем проверку на сортировку
-            quantity_zones = driver.find_elements_by_xpath('//tr[@class="row"]/td[6]')[y].get_attribute('textContent') #Элемент кол-ва зон в стране
+            quantity_zones = driver.find_elements_by_xpath('//tr[@class="row"]/td[6]')[y]\
+            .get_attribute('textContent') #Элемент кол-ва зон в стране
             if int(quantity_zones) > 0:
                 driver.find_elements_by_xpath('//tr[@class="row"]/td[7]')[y].click()
                 #Проверка сортировки зон страны
@@ -64,8 +65,8 @@ def check_country_zone():
 
 
 def geo_zone():
-    """ФУНКЦИЯ ПРОВЕРКИ ОТСОРТИРОВАННОСТИ СПИСКОВ ЗОН ВЫПАДАЮЩИХ
-    СПИСКОВ НА СТРАНИЦЕ /?app=geo_zones&doc=geo_zones"""
+    """ФУНКЦИЯ ПРОВЕРКИ ОТСОРТИРОВАННОСТИ ВЫБРАННЫХ ЗОН В ВЫПАДАЮЩИХ СПИСКАХ
+    НА СТРАНИЦЕ /?app=geo_zones&doc=geo_zones"""
 
     driver.get('http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones')
     country = driver.find_elements_by_xpath('//tr[@class="row"]//td[3]') #список стран

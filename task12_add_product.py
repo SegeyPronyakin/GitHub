@@ -1,13 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
+import os
 
 
 driver = webdriver.Chrome()
 ADMIN_URL = 'http://localhost/litecart/admin'
 LOGIN = 'admin'
 PASSWORD = 'admin'
-PRODUCT_PATH = '\img.jpg' #C:\\Users\\acer-pc\PycharmProjects\GitHub
+PRODUCT_PATH = os.path.abspath("img.jpg")
 NAME_PRODUCT = 'BatDuck'
 
 

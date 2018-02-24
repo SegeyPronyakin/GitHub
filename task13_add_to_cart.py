@@ -22,7 +22,7 @@ def add_to_cart():
     driver.get('http://localhost/litecart/en/')
     count_product = driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]')
 
-    while int(count_product.get_attribute('textContent')) < 5:
+    while int(count_product.get_attribute('textContent')) < 3:
         count_product = driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]')
         first_product = driver.find_element_by_xpath('//*[@id="box-most-popular"]//a[1]/div[2]').click()
         x = int(driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]').get_attribute(
@@ -32,22 +32,18 @@ def add_to_cart():
             driver.find_element_by_name('options[Size]').click()
             driver.find_element_by_css_selector('select[name="options[Size]"] option[value="Small"]').click()
             driver.find_element_by_name('add_cart_product').click()
-            while int(driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]').get_attribute('textContent')) < x:
-                #wait.until(EC.text_to_be_present_in_element(By.XPATH, '//div[@id="cart"]//a[2]/span[@class="quantity"]'))
+            while int(driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]').get_attribute(
+                    'textContent')) < x:
                 pass
             driver.get('http://localhost/litecart/en/')
         else:
             driver.find_element_by_name('add_cart_product').click()
             while int(driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]').get_attribute(
                     'textContent')) < x:
-                #wait.until(EC.presence_of_element_located((By.XPATH, '//div[@id="cart"]//a[2]/span[@class="quantity"]')))
                 pass
             driver.get('http://localhost/litecart/en/')
-        print(x)
-
         count_product = driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]')
-
-    driver.find_element_by_xpath('//div[@id="cart"]//a[3]').click() #в корзину
+    driver.find_element_by_xpath('//div[@id="cart"]//a[3]').click() #переход в корзину
 
 
     remove_button_list = driver.find_elements_by_css_selector('li[class="item"] button[name="remove_cart_item"]')
@@ -58,36 +54,11 @@ def add_to_cart():
         wait.until(EC.staleness_of(table)) #таблица была, но исчезла
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 def main():
     add_to_cart()
-    #driver.close()
+    driver.close()
 
 
 if __name__ == '__main__':
     main()
 
-# product = driver.find_element_by_css_selector('div[class="viewport"] button[name="remove_cart_item"]')
-# product.click()
-# time.sleep(2)
-
-#
-# for button in remove_button_list:
-#     wait_element = wait.until(EC.visibility_of_element_located
-#                               ((By.CSS_SELECTOR, 'div[class="viewport"] button[name="remove_cart_item"]')))
-#     wait_element.click()
-
-#
-# wait_element = wait.until(
-#     lambda d: d.find_element_by_css_selector('div[class="viewport"] button[name="remove_cart_item"]'))

@@ -22,7 +22,7 @@ def add_to_cart():
     driver.get('http://localhost/litecart/en/')
     count_product = driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]')
 
-    while int(count_product.get_attribute('textContent')) < 3:
+    while int(count_product.get_attribute('textContent')) < 10:
         count_product = driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]')
         first_product = driver.find_element_by_xpath('//*[@id="box-most-popular"]//a[1]/div[2]').click()
         x = int(driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]').get_attribute(
@@ -32,15 +32,16 @@ def add_to_cart():
             driver.find_element_by_name('options[Size]').click()
             driver.find_element_by_css_selector('select[name="options[Size]"] option[value="Small"]').click()
             driver.find_element_by_name('add_cart_product').click()
-            while int(driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]').get_attribute(
-                    'textContent')) < x:
-                pass
+            if int(driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]').get_attribute(
+                'textContent')) < x:
+                q = driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]')
+                wait.until(EC.text_to_be_present_in_element((By.XPATH, '//div[@id="cart"]//a[2]/span[@class="quantity"]'), str(x)))
             driver.get('http://localhost/litecart/en/')
         else:
             driver.find_element_by_name('add_cart_product').click()
-            while int(driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]').get_attribute(
+            if int(driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]').get_attribute(
                     'textContent')) < x:
-                pass
+                wait.until(EC.text_to_be_present_in_element((By.XPATH, '//div[@id="cart"]//a[2]/span[@class="quantity"]'), str(x)))
             driver.get('http://localhost/litecart/en/')
         count_product = driver.find_element_by_xpath('//div[@id="cart"]//a[2]/span[@class="quantity"]')
     driver.find_element_by_xpath('//div[@id="cart"]//a[3]').click() #переход в корзину

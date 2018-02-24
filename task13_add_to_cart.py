@@ -52,10 +52,10 @@ def add_to_cart():
 
     remove_button_list = driver.find_elements_by_css_selector('li[class="item"] button[name="remove_cart_item"]')
     for button in remove_button_list:
-        product = driver.find_element_by_css_selector('div[class="viewport"] button[name="remove_cart_item"]')
-        product.click()
+        button_remove = driver.find_element_by_css_selector('div[class="viewport"] button[name="remove_cart_item"]')
+        button_remove.click()
         table = driver.find_element_by_id('box-checkout-summary')
-        wait.until(EC.staleness_of(table))
+        wait.until(EC.staleness_of(table)) #таблица была, но исчезла
 
 
 

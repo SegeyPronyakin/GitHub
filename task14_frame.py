@@ -1,5 +1,5 @@
 from selenium import webdriver
-
+from selenium.common.exceptions import UnexpectedAlertPresentException
 
 driver = webdriver.Chrome(desired_capabilities={"unexpectedAlertBehaviour": "dismiss"}) #закрытие алерта
 LOGIN = 'admin'
@@ -33,7 +33,7 @@ def function():
         #механизм повтора события при закрытии алерта
         try:
             driver.find_elements_by_xpath('//*[@id="content"]//tbody//td/a')[x].click()
-        except:
+        except UnexpectedAlertPresentException:
             driver.find_elements_by_xpath('//*[@id="content"]//tbody//td/a')[x].click()
         windows_list_NEW.append(driver.window_handles) #список новых окон после клика по ссылке
         result = list(set(windows_list_NEW[0])^set(windows_list_OLD[0]))#получение нового элемента из списка (новое окно)

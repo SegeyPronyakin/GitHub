@@ -40,6 +40,7 @@ def check_log():
         driver.get(CATEGORY_URL)
         x += 1
         break
+    driver.quit()
 
 
 def main():

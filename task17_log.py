@@ -30,19 +30,11 @@ def check_log():
     product_rows = driver.find_elements_by_xpath('//table[@class="dataTable"]//tr[@class="row"]//td[3]/a')
     x=0
     for row in product_rows:
-        current_url = driver.current_url
+        new_table = driver.find_elements_by_xpath('//table[@class="dataTable"]//tr[@class="row"]//td[3]/a')
         driver.find_elements_by_xpath('//table[@class="dataTable"]//tr[@class="row"]//td[3]/a')[x].click()
         print_log()
-        new_table = driver.find_elements_by_xpath('//table[@class="dataTable"]//tr[@class="row"]//td[3]/a')
-        for i in new_table:
-            current_url = driver.current_url
-            new_table = driver.find_elements_by_xpath('//table[@class="dataTable"]//tr[@class="row"]//td[3]/a')
-            driver.find_elements_by_xpath('//table[@class="dataTable"]//tr[@class="row"]//td[3]/a')[x].click()
-            print_log()
-            x+=1
-            driver.get(current_url)
-        break
-
+        x+=1
+        driver.get(CATEGORY_URL)
 
 def main():
     login_admin_panel()
